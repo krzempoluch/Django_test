@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url, include
+from django.views.generic.base import TemplateView
 from projekty.models import MWD, Projekt
 from rest_framework import routers, serializers, viewsets
 
@@ -28,6 +29,6 @@ router.register(r'projekty', ProjektViewSet)
 router.register(r'mwds', MWDViewSet)
 
 urlpatterns = patterns('',
-    url(r'^$', views.index, name='index'),
+    url(r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^api/', include(router.urls)),
 )

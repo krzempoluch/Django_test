@@ -1,14 +1,14 @@
 <html>
 <head>
 <title>Test Angulara</title>
-<link href="{{ STATIC_URL }}/static/stylesheets/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="{{ STATIC_URL }}/static/stylesheets/Angular/ui-grid/ui-grid.css" rel="stylesheet">
-<link href="{{ STATIC_URL }}/static/stylesheets/style.css" rel="stylesheet">
-<script src="{{ STATIC_URL }}/static/javascripts/Angular/1.2.x/angular.min.js"></script>
-<script src="{{ STATIC_URL }}/static/javascripts/Angular/bootstrap-angular-ui/ui-bootstrap-tpls-0.11.2.min.js"></script>
-<script	src="{{ STATIC_URL }}/static/javascripts/Angular/angular-ui-router/0.2.11/angular-ui-router.min.js"></script>
-<script src="{{ STATIC_URL }}/static/javascripts/Angular/ui-grid/ui-grid.js"></script>
-<script src="{{ STATIC_URL }}/static/javascripts/angularControllers.js"></script>
+<link href="/static/stylesheets/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/stylesheets/Angular/ui-grid/ui-grid.css" rel="stylesheet">
+<link href="/static/stylesheets/style.css" rel="stylesheet">
+<script src="/static/javascripts/Angular/1.2.x/angular.min.js"></script>
+<script src="/static/javascripts/Angular/bootstrap-angular-ui/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<script	src="/static/javascripts/Angular/angular-ui-router/0.2.11/angular-ui-router.min.js"></script>
+<script src="/static/javascripts/Angular/ui-grid/ui-grid.js"></script>
+<script src="/static/javascripts/angularControllers.js"></script>
 </head>
 <body ng-app="projectMWD">
 	<nav class="col-md-10 col-md-offset-1 navbar navbar-default" role="navigation">
@@ -70,14 +70,14 @@
             </p>
 			<ul>
 				<div data-ng-repeat="mwdInProject in mwdsInProject">
-					<li>{{mwdInProject.name}}</li>
+					<li>{%verbatim%}{{mwdInProject.name}}{%endverbatim%}</li>
 				</div>
 			</ul>
 			<div class="btn-group" dropdown is-open="status.isopen">
       		<button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled"> Dodaj MWD <span class="caret"></span></button>
      		<ul class="dropdown-menu" role="menu">
 				<div data-ng-repeat="mwd in mwds">
-        			<li ng-click="addMwdToProject(mwd)">{{mwd.name}}</li>
+        			<li ng-click="addMwdToProject(mwd)">{%verbatim%}{{mwd.name}}{%endverbatim%}</li>
 				</div>
       		</ul>
     		</div>
@@ -118,14 +118,14 @@
             </p>
 			<ul>
 				<div data-ng-repeat="mwdInProject in mwdsInProject">
-					<li>{{mwdInProject.name}}</li>
+					<li>{%verbatim%}{{mwdInProject.name}}{%endverbatim%}</li>
 				</div>
 			</ul>
 			<div class="btn-group" dropdown is-open="status.isopen">
       		<button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled"> Dodaj MWD <span class="caret"></span></button>
      		<ul class="dropdown-menu" role="menu">
 				<div data-ng-repeat="mwd in mwds">
-        			<li ng-click="addMwdToProject(mwd)">{{mwd.name}}</li>
+        			<li ng-click="addMwdToProject(mwd)">{%verbatim%}{{mwd.name}}{%endverbatim%}</li>
 				</div>
       		</ul>
     		</div>

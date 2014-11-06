@@ -2,8 +2,9 @@ angular.module('projectMWD', ['ui.router', 'ui.bootstrap', 'ui.grid'])
 .config([
 '$stateProvider',
 '$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+'$interpolateProvider',
+function($stateProvider, $urlRouterProvider, $interpolateProvider) {
+	$stateProvider
     .state('home', {
       url: '/home',
       templateUrl: '/home.html',
@@ -151,7 +152,7 @@ function($scope, projects, project, mwds){
 	$scope.jira_URL = project.jira_URL;
 	$scope.start_date = project.start_date;
 	$scope.mwds = mwds.mwds;
-	$scope.mwdsInProject = project.MWDs;
+	$scope.mwdsInProject = project.mwds;
 	$scope.today = function() {
 		$scope.dt = new Date();
 	};
