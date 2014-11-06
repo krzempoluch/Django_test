@@ -1,0 +1,34 @@
+body {
+	
+}
+
+a {
+	
+}
+
+.grid {
+	height: 30px;
+}
+
+.grid .ui-grid-row, .ui-grid-cell, .ui-grid-cell, .ui-grid-vertical-bar
+	{
+	 	height: 65px !important; 
+	
+}
+
+.grid .ngCell {
+	display: table-cell;
+	height: auto !important;
+	position: static;
+}
+
+.grid .ngRow {
+	display: table-row;
+	height: auto !important;
+	position: static;
+}
+
+.grid .ngCellText {
+	height: auto !important;
+	white-space: normal;
+}

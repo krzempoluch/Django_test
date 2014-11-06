@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>Test Angulara</title>
+<link href="{{ STATIC_URL }}/static/stylesheets/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}/static/stylesheets/Angular/ui-grid/ui-grid.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}/static/stylesheets/style.css" rel="stylesheet">
+<script src="{{ STATIC_URL }}/static/javascripts/Angular/1.2.x/angular.min.js"></script>
+<script src="{{ STATIC_URL }}/static/javascripts/Angular/bootstrap-angular-ui/ui-bootstrap-tpls-0.11.2.min.js"></script>
+<script	src="{{ STATIC_URL }}/static/javascripts/Angular/angular-ui-router/0.2.11/angular-ui-router.min.js"></script>
+<script src="{{ STATIC_URL }}/static/javascripts/Angular/ui-grid/ui-grid.js"></script>
+<script src="{{ STATIC_URL }}/static/javascripts/angularControllers.js"></script>
+</head>
+<body ng-app="projectMWD">
+	<nav class="col-md-10 col-md-offset-1 navbar navbar-default" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle"
+				ng-click="navbarCollapsed = !navbarCollapsed">
+				<span class="sr-only">Menu</span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Node.js</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" collapse="navbarCollapsed">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#/home">Projekty</a></li>
+				<li><a href="#/mwd">mwd</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<ui-view></ui-view>
+		</div>
+	</div>
+<script type="text/ng-template" id="/home.html">
+		<div class="page-header">
+			<h1 style=" display: inline; ">Projekty</h1>
+			<button class="btn btn-primary" style=" float: right; " ng-click="openAdd()">+ Dodaj</button>
+		</div>
+		<div class="table-responsive">
+			<div ui-grid="gridOptions" class="grid"></div>		
+		</div>
+ </script> 
+ <script type="text/ng-template" id="/mwd.html">
+		<div class="page-header">
+			<h1 style=" display: inline; ">Mwd</h1>
+			<button class="btn btn-primary" style=" float: right; " ng-click="openAdd()">+ Dodaj</button>
+		</div>
+		<div ui-grid="gridOptions" class="grid"></div>
+ </script> 
+ <script type="text/ng-template" id="addProject.html">
+        <form ng-submit="addProject()" style="padding: 15px;">
+			<h3>Dodaj projekt</h3>
+
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Nazwa" ng-model="name"></input>
+			</div>
+			<div class="form-group">
+				<input type="url" class="form-control" placeholder="jira URL" ng-model="jira_URL"></input>
+			</div>
+            <p class="input-group">
+              	<input type="text" class="form-control" placeholder="Data rozpoczecia projektu" datepicker-popup="{{format}}" ng-model="start_date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              	<span class="input-group-btn">
+              		  <button type="button" class="btn btn-default" ng-click="openDP($event)"><i class="glyphicon glyphicon-calendar" style="line-height: 1.45;"></i></button>
+              	</span>
+            </p>
+			<ul>
+				<div data-ng-repeat="mwdInProject in mwdsInProject">
+					<li>{{mwdInProject.name}}</li>
+				</div>
+			</ul>
+			<div class="btn-group" dropdown is-open="status.isopen">
+      		<button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled"> Dodaj MWD <span class="caret"></span></button>
+     		<ul class="dropdown-menu" role="menu">
+				<div data-ng-repeat="mwd in mwds">
+        			<li ng-click="addMwdToProject(mwd)">{{mwd.name}}</li>
+				</div>
+      		</ul>
+    		</div>
+			<button type="submit" style="float: right;" class="btn btn-primary">Dodaj</button>
+		</form>
+    </script>
+    <script type="text/ng-template" id="addMwd.html">
+        <form ng-submit="addMwd()" style="padding: 15px;">
+			<h3>Dodaj mwd</h3>
+
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Nazwa" ng-model="name"></input>
+			</div>
+            <p class="input-group">
+              	<input type="text" class="form-control" placeholder="issueDate" datepicker-popup="{{format}}" ng-model="issueDate" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              	<span class="input-group-btn">
+              		  <button type="button" class="btn btn-default" ng-click="openDP($event)"><i class="glyphicon glyphicon-calendar" style="line-height: 1.45;"></i></button>
+              	</span>
+            </p>
+			<button type="submit" class="btn btn-primary">Dodaj</button>
+		</form>
+    </script>
+    <script type="text/ng-template" id="/project.html">
+		<form ng-submit="editProject()" style="padding: 15px;">
+			<h3>Edytuj projekt</h3>
+
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Nazwa" ng-model="name"></input>
+			</div>
+			<div class="form-group">
+				<input type="url" class="form-control" placeholder="jira URL" ng-model="jira_URL"></input>
+			</div>
+            <p class="input-group">
+              	<input type="text" class="form-control" placeholder="Data rozpoczecia projektu" datepicker-popup="{{format}}" ng-model="start_date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              	<span class="input-group-btn">
+              		  <button type="button" class="btn btn-default" ng-click="openDP($event)"><i class="glyphicon glyphicon-calendar" style="line-height: 1.45;"></i></button>
+              	</span>
+            </p>
+			<ul>
+				<div data-ng-repeat="mwdInProject in mwdsInProject">
+					<li>{{mwdInProject.name}}</li>
+				</div>
+			</ul>
+			<div class="btn-group" dropdown is-open="status.isopen">
+      		<button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled"> Dodaj MWD <span class="caret"></span></button>
+     		<ul class="dropdown-menu" role="menu">
+				<div data-ng-repeat="mwd in mwds">
+        			<li ng-click="addMwdToProject(mwd)">{{mwd.name}}</li>
+				</div>
+      		</ul>
+    		</div>
+			<button type="submit" style="float: right;" class="btn btn-primary">Zapisz</button>
+		</form>
+    </script>
+    </script>
+</body>
+</html>
