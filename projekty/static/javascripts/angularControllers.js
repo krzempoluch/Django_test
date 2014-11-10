@@ -59,13 +59,13 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
 		});
 	};
 	o.edit = function(project) {
-		  return $http.post('/projekty/api/projekty' + project.id + '/edit', project)
+		  return $http.post('/projekty/api/projekty/' + project.id + '/', project)
 		    .success(function(data){
 		      
 		    });
 		};
 	o.get = function(id) {
-		return $http.get('/projekty/api/projekty' + id).then(function(res){
+		return $http.get('/projekty/api/projekty/' + id + '/').then(function(res){
 			return res.data;
 		});
 	};
@@ -152,7 +152,7 @@ function($scope, projects, project, mwds){
 	$scope.jira_URL = project.jira_URL;
 	$scope.start_date = project.start_date;
 	$scope.mwds = mwds.mwds;
-	$scope.mwdsInProject = project.mwds;
+	$scope.mwdsInProject = project.MWDs;
 	$scope.today = function() {
 		$scope.dt = new Date();
 	};
@@ -239,7 +239,7 @@ function($scope, $modalInstance, projects, mwds) {
 			name : $scope.name,
 			jira_URL : $scope.jira_URL,
 			start_date : $scope.start_date,
-			mwds: $scope.mwdsInProject
+			MWDs: $scope.mwdsInProject
 		});
 		$scope.name = '';
 		$scope.jira_URL = '';
@@ -292,7 +292,7 @@ function($scope, $modalInstance, mwds) {
 		}
 		mwds.create({
 			name : $scope.name,
-			issueDate : $scope.issueDate
+			issue_date : $scope.issueDate
 		});
 		$scope.name = '';
 		$scope.issueDate = '';
