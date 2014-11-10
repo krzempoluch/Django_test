@@ -1,1 +1,1 @@
-web: gunicorn projekty.wsgi --log-file -
+web: gunicorn projekty.wsgi -b 0.0.0.0:$PORT
