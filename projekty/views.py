@@ -21,11 +21,11 @@ def project_details(request, project_id):
         
     elif request.method == 'POST':
             projekt = Projekt.objects.filter(id=project_id)[0]
+            mwds=request.DATA['mwds']
             projekt.name = request.DATA['name']
             projekt.jira_URL = request.DATA['jira_URL']
             projekt.start_date = request.DATA['start_date']
             projekt.save()
-            mwds=request.DATA['mwds']
             for mwd in mwds:
                 projekt.addMwd(mwd)
             projektsSerializer = ProjektSerializer(projekt)
