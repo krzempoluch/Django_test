@@ -2,3 +2,6 @@ django_test/__pycache__/
 projekty/migrations/__pycache__/
 *.pyc
 django_test/__pycache__/urls.cpython-34.pyc
+/django_test/__pycache__
+/projekty/__pycache__
+/projekty/migrations/__pycache__
