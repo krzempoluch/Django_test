@@ -25,7 +25,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['djangotest123.herokuapp.com']
+ALLOWED_HOSTS = ['djangotest123-metoda1234.rhcloud.com']
 
 
 # Application definition
