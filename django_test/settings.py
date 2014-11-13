@@ -65,8 +65,8 @@ DATABASES = {
         'NAME': 'djangotest123',
         'USER': 'adminafgpvsf',
         'PASSWORD': 'xQKnIueLC_Pc',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': os.environ['OPENSHIFT_POSTGRESQL_DB_HOST'],
+        'PORT': os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
     }
 }
 
