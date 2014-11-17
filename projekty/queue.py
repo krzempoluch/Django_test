@@ -11,7 +11,7 @@ class MessageQueue(object):
         self.address=queueAddress
         
     def connect(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.address))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.address))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.name)
         
