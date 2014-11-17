@@ -26,7 +26,8 @@
 		<div class="collapse navbar-collapse" collapse="navbarCollapsed">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#/home">Projekty</a></li>
-				<li><a href="#/mwd">mwd</a></li>
+				<li><a href="#/mwd">Mwd</a></li>
+				<li><a href="#/reports">Raporty</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -51,6 +52,16 @@
 			<button class="btn btn-primary" style=" float: right; " ng-click="openAdd()">+ Dodaj</button>
 		</div>
 		<div ui-grid="gridOptions" class="grid"></div>
+ </script> 
+  <script type="text/ng-template" id="/reports.html">
+		<div class="page-header">
+			<h1 style=" display: inline; ">Raporty</h1>
+		</div>
+		<ul>
+			<div data-ng-repeat="report in reports">
+				<li>{%verbatim%}{{report}}{%endverbatim%}</li>
+			</div>
+		</ul>
  </script> 
  <script type="text/ng-template" id="addProject.html">
         <form ng-submit="addProject()" style="padding: 15px;">

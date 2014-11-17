@@ -4,6 +4,7 @@ from projekty import views
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^api/reports/$',  views.get_reports),
     url(r'^api/projekty/(?P<project_id>.+)/generate/$',  views.generate_report),
     url(r'^api/projekty/(?P<project_id>.+)/$',  views.project_details),
     url(r'^api/projekty',  views.projects_list),

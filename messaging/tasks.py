@@ -1,28 +1,10 @@
 from celery import Celery
 import logging, time, datetime
-from celery.canvas import subtask
 from projekty.queue import PublishQueue
 
 app = Celery('tasks', backend='amqp', broker='amqp://')
 logger = logging.getLogger(__name__+'Task')
 producer = PublishQueue('reportReturnQueue')
-
-@app.task(ignore_result=True)
-def print_hello():
-    logger.error('-------------------Task hello------------------')
-    
-@app.task
-def gen_prime(x, callback=None):
-    multiples = []
-    results = []
-    for i in range(x+1):
-        if i not in multiples:
-            results.append(i)
-            for j in range(i*i):
-                multiples.append(j)
-    logger.error('-------------------liczenie zakończone---------------')
-    producer.publish(str(results))
-    return results
 
 @app.task
 def gen_report(id):

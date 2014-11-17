@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import logging, pika, threading
+import logging, pika, threading, datetime
 
 class MessageQueue(object):
     u"Klasa do laczenia sie z kolejkami"
@@ -17,6 +17,7 @@ class MessageQueue(object):
     def disconnect(self):
         self.connection.close()
         
+class PublishQueue(MessageQueue):
     def publish(self, message):
         self.connect()
         self.channel.basic_publish(exchange='',
@@ -25,15 +26,14 @@ class MessageQueue(object):
         self.logger.error("Wyslano wiadomosc na kolejke: "+self.name+" wiadomosc: "+message);
         self.disconnect()
         
-    def consume(self, callback=None):
-        if callback is None:
-            self.consumer_thread = threading.Thread(target=self.setAsConsumer)
-        else:
-            self.consumer_thread = threading.Thread(target=setAsConsumer(callback))
+class ConsumerQueue(MessageQueue):
+    consumer_thread=None
+    def consume(self):
+        self.consumer_thread = threading.Thread(target=self.setAsConsumer)
         self.logger.error("Start watku");
         self.consumer_thread.start()
         
-    def setAsConsumer(self, callback):
+    def setAsConsumer(self):
         self.logger.error("Ustawiono konsumera dla kolejki: "+self.name);
         self.connect()
         self.channel.basic_consume(self.callback,
@@ -42,7 +42,23 @@ class MessageQueue(object):
         self.channel.start_consuming()
         
     def callback(self, ch, method, properties, body):
+       raise NotImplementedError("Please Implement this method")
+        
+class ReportConsumerQueue(ConsumerQueue):
+    def callback(self, ch, method, properties, body):
+        self.logger.error("--------Zamkniecie kolejki--------");
+        self.channel.stop_consuming()
+        self.disconnect()
         self.consumer_thread._stop()
-        self.logger.error("Odebrano wiadomosc z kolejki: "+self.name+" wiadomosc: "+str(body));
-
+        self.logger.error("Odebrano wiadomosc z kolejki: "+self.name+" wiadomosc: "+str(body))
+        self.saveReport(body)
+        
+    def saveReport(self, report):
+        now = datetime.datetime.now()
+        reportFolder = 'reports/'
+        fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+'.txt'
+        handle1=open(fileName,'w+')
+        handle1.write(str(report))
+        handle1.close()
+        self.logger.error("Zapisano plik raportu: "+fileName);
         
