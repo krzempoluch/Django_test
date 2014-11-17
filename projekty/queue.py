@@ -5,13 +5,16 @@ from random import randrange
 class MessageQueue(object):
     u"Klasa do laczenia sie z kolejkami"
     logger = logging.getLogger(__name__+'Q')
-    def __init__(self, queueName=None, queueAddress='localhost'):
+    def __init__(self, queueName=None, queueAddress='localhost', user=None, password=None):
         self.logger.error("Inicjalizacja kolejki: "+queueName+' adres: '+ queueAddress)
         self.name=queueName
         self.address=queueAddress
+        self.username=user
+        self.password=password
         
     def connect(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.address))
+        credentials = pika.PlainCredentials(self.username, self.password)
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.address, credentials=credentials))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.name)
         
