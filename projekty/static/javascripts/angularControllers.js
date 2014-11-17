@@ -28,6 +28,16 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
     	  }
     	}
 	})
+	.state('reports', {
+	  url: '/reports',
+	  templateUrl: '/reports.html',
+	  controller: 'ReportsCtrl',
+	  resolve: {
+    	  reportPromise: function(reports){
+    	    return reports.getReportList();
+    	  }
+    	}
+	})
 	.state('project', {
 	  url: '/projects/{id}',
 	  templateUrl: '/project.html',
@@ -90,6 +100,17 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
 	};
 	return o;
 } ])
+.factory('reports', [ '$http', function($http) {
+	var o = {
+			reports : []
+		};
+	o.getReportList = function() {
+		return $http.get('/projekty/api/reports/').success(function(data) {
+			angular.copy(data.reports, o.reports);
+		});
+	};
+	return o;
+} ])
 .controller('MainCtrl',[ 
 '$scope',
 '$modal',
@@ -145,6 +166,12 @@ function($scope, $modal, mwds){
 	      controller: 'MwdModalCtrl'
 	      })
 	};
+}])
+.controller('ReportsCtrl', [
+'$scope',
+'reports',
+function($scope, reports){
+	$scope.reports = reports.reports;
 }])
 .controller('ProjectCtrl', [
 '$scope',

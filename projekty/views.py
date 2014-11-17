@@ -7,9 +7,10 @@ from rest_framework.response import Response
 from projekty.models import Projekt, ProjektSerializer, MWD, MWDSerializer
 from messaging.tasks import gen_report
 from projekty.queue import ReportConsumerQueue
-import logging
+import logging, os
 
 logger = logging.getLogger(__name__+'views')
+subscriber = ReportConsumerQueue('reportReturnQueue')
 # Create your views here.
 def index(request):
     template = loader.get_template('index.html')
@@ -77,8 +78,13 @@ def mwd_list(request):
 @api_view(['GET', 'POST'])
 def generate_report(request, project_id):
     if request.method == 'POST':
-        logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------')
-        subscriber = MessageQueue('reportReturnQueue')
+        logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
         subscriber.consume()
-        gen_report.delay(project_id)
+        gen_report.delay(project_id) 
         
+@api_view(['GET', 'POST'])
+def get_reports(request):
+    if request.method == 'GET':
+        path = 'reports/'
+        files_list = os.listdir(path)
+        return Response({'reports': files_list}, status=status.HTTP_201_CREATED)
