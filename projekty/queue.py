@@ -9,9 +9,12 @@ class MessageQueue(object):
         self.logger.error("Inicjalizacja kolejki: "+queueName+' adres: '+ queueAddress)
         self.name=queueName
         self.address=queueAddress
+        self.username=user
+        self.password=password
         
     def connect(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.address))
+        credentials = pika.PlainCredentials(self.username, self.password)
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.address, credentials=credentials))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.name)
         
