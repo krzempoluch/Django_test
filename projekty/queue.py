@@ -13,8 +13,8 @@ class MessageQueue(object):
         
     def connect(self):
         url = urlparse(self.address)
-        self.logger.error("Próba polaczenia z ("+str(url.hostname));
-        params = pika.ConnectionParameters(host=str(url.hostname), credentials=pika.PlainCredentials(url.username, url.password))
+        params = pika.ConnectionParameters(host=str(url.hostname), virtual_host=str(url.path[1:]),
+                                           credentials=pika.PlainCredentials(url.username, url.password))
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(params))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.name)
