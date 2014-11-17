@@ -79,7 +79,7 @@ def mwd_list(request):
 def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
-        subscriber = ReportConsumerQueue('reportReturnQueue')
+        subscriber = ReportConsumerQueue('reportReturnQueue', os.environ['cloudamqp_56497'].uri)
         subscriber.consume()
         gen_report.delay(project_id)
         
