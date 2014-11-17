@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import logging, pika, threading, datetime
+from random import randrange
 
 class MessageQueue(object):
     u"Klasa do laczenia sie z kolejkami"
@@ -56,7 +57,7 @@ class ReportConsumerQueue(ConsumerQueue):
     def saveReport(self, report):
         now = datetime.datetime.now()
         reportFolder = 'reports/'
-        fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+'.txt'
+        fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+str(randrange(10))+'.txt'
         handle1=open(fileName,'w+')
         handle1.write(str(report))
         handle1.close()

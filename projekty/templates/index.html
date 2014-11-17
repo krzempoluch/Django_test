@@ -59,7 +59,7 @@
 		</div>
 		<ul>
 			<div data-ng-repeat="report in reports">
-				<li>{%verbatim%}{{report}}{%endverbatim%}</li>
+				<li><a style="cursor: pointer;" ng-click="downloadReport(report)">{%verbatim%}{{report}}{%endverbatim%}</a></li>
 			</div>
 		</ul>
  </script> 
