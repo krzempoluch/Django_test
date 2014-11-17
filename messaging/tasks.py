@@ -2,9 +2,9 @@ from celery import Celery
 import logging, time, datetime, os
 from projekty.queue import PublishQueue
 
-app = Celery('tasks', backend='amqp', broker=os.environ['cloudamqp_56497'].uri)
+app = Celery('tasks', backend='amqp', broker=os.environ['cloudamqp_56497'])
 logger = logging.getLogger(__name__+'Task')
-producer = PublishQueue('reportReturnQueue', os.environ['cloudamqp_56497'].uri)
+producer = PublishQueue('reportReturnQueue', os.environ['cloudamqp_56497'])
 
 @app.task
 def gen_report(id):
