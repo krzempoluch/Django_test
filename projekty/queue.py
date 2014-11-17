@@ -1,20 +1,21 @@
 #!/usr/bin/env python
 import logging, pika, threading, datetime, os
 from random import randrange
+from urllib.parse import urlparse
 
 class MessageQueue(object):
     u"Klasa do laczenia sie z kolejkami"
     logger = logging.getLogger(__name__+'Q')
-    def __init__(self, queueName=None, queueAddress='localhost', user=None, password=None):
+    def __init__(self, queueName=None, queueAddress='localhost'):
         self.logger.error("Inicjalizacja kolejki: "+queueName+' adres: '+ queueAddress)
         self.name=queueName
         self.address=queueAddress
-        self.username=user
-        self.password=password
         
     def connect(self):
-        credentials = pika.PlainCredentials(self.username, self.password)
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.address, credentials=credentials))
+        url = urlparse(self.address=queueAddress)
+        params = pika.ConnectionParameters(host=url.hostname, virtual_host=url.path[1:],
+                                           credentials=pika.PlainCredentials(url.username, url.password))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(params))
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.name)
         
