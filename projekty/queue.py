@@ -6,7 +6,7 @@ class MessageQueue(object):
     u"Klasa do laczenia sie z kolejkami"
     logger = logging.getLogger(__name__+'Q')
     def __init__(self, queueName=None, queueAddress='localhost'):
-        self.logger.error("Inicjalizacja kolejki: "+queueName)
+        self.logger.error("Inicjalizacja kolejki: "+queueName+' adres: '+ queueAddress)
         self.name=queueName
         self.address=queueAddress
         

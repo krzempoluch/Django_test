@@ -86,14 +86,14 @@ def generate_report(request, project_id):
 @api_view(['GET', 'POST'])
 def get_reports(request):
     if request.method == 'GET':
-        path = 'reports/'
+        path = '/var/lib/openshift/54646c675973ca5701000018/app-root/runtime/repo/reports/'
         files_list = os.listdir(path)
         return Response({'reports': files_list}, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'POST'])
 def get_report_file(request, file_name):
     if request.method == 'GET':
-        path = 'reports/'
+        path = '/var/lib/openshift/54646c675973ca5701000018/app-root/runtime/repo/reports/'
         logger.error('Pobieranie pliku '+(path+file_name)) 
         return_file=open(path+file_name, 'rb')
         response = HttpResponse(return_file, content_type='application/force-download')
