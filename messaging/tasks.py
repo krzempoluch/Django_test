@@ -1,5 +1,5 @@
 from celery import Celery
-import logging, time, datetime
+import logging, time, datetime, os
 from projekty.queue import PublishQueue
 
 app = Celery('tasks', backend='amqp', broker=os.environ['cloudamqp_56497'].uri)

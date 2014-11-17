@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import logging, pika, threading, datetime
+import logging, pika, threading, datetime, os
 from random import randrange
 
 class MessageQueue(object):
