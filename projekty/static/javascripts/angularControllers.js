@@ -100,7 +100,7 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
 	};
 	return o;
 } ])
-.factory('reports', [ '$http', function($http) {
+.factory('reports', [ '$http', '$window', function($http, $window) {
 	var o = {
 			reports : []
 		};
@@ -109,6 +109,10 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
 			angular.copy(data.reports, o.reports);
 		});
 	};
+	o.getReportFile = function(fileName){
+		var url = '/projekty/api/reports/' +fileName+'/';
+        $window.location = url;
+	}
 	return o;
 } ])
 .controller('MainCtrl',[ 
@@ -172,6 +176,10 @@ function($scope, $modal, mwds){
 'reports',
 function($scope, reports){
 	$scope.reports = reports.reports;
+	$scope.downloadReport = function (name){
+		console.log(name);
+		reports.getReportFile(name);
+	}
 }])
 .controller('ProjectCtrl', [
 '$scope',

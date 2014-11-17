@@ -10,7 +10,7 @@ from projekty.queue import ReportConsumerQueue
 import logging, os
 
 logger = logging.getLogger(__name__+'views')
-subscriber = ReportConsumerQueue('reportReturnQueue')
+
 # Create your views here.
 def index(request):
     template = loader.get_template('index.html')
@@ -79,6 +79,7 @@ def mwd_list(request):
 def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
+        subscriber = ReportConsumerQueue('reportReturnQueue')
         subscriber.consume()
         gen_report.delay(project_id) 
         
@@ -88,3 +89,13 @@ def get_reports(request):
         path = 'reports/'
         files_list = os.listdir(path)
         return Response({'reports': files_list}, status=status.HTTP_201_CREATED)
+
+@api_view(['GET', 'POST'])
+def get_report_file(request, file_name):
+    if request.method == 'GET':
+        path = 'reports/'
+        logger.error('Pobieranie pliku '+(path+file_name)) 
+        return_file=open(path+file_name, 'rb')
+        response = HttpResponse(return_file, content_type='application/force-download')
+        response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
+        return response
