@@ -5,8 +5,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from projekty.models import Projekt, ProjektSerializer, MWD, MWDSerializer
+from messaging.tasks import gen_report
+from projekty.queue import ReportConsumerQueue
+import logging
 
-
+logger = logging.getLogger(__name__+'views')
 # Create your views here.
 def index(request):
     template = loader.get_template('index.html')
@@ -70,3 +73,12 @@ def mwd_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET', 'POST'])
+def generate_report(request, project_id):
+    if request.method == 'POST':
+        logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------')
+        subscriber = MessageQueue('reportReturnQueue')
+        subscriber.consume()
+        gen_report.delay(project_id)
+        

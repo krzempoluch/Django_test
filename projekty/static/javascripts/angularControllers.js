@@ -69,9 +69,9 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
 			return res.data;
 		});
 	};
-//	o.addComment = function(id, comment) {
-//		  return $http.post('/posts/' + id + '/comments', comment);
-//		};
+	o.generateReport = function(id) {
+		  return $http.post('/projekty/api/projekty/' + id + '/generate/');
+		};
 	return o;
 } ])
 .factory('mwds', [ '$http', function($http) {
@@ -111,7 +111,8 @@ function($scope, $modal, projects) {
 			              },
 			              {field: 'Actions', displayName: '', 
 				            	 cellTemplate:
-				            	'<a href="#/projects/{{row.entity.id}}">Edycja</a>'
+				            	'<a href="#/projects/{{row.entity.id}}">Edycja</a> '+
+				            	'| <a style="cursor: pointer;" ng-click="$parent.$parent.$parent.$parent.$parent.$parent.generateReport(row.entity.id)">Raport</a>' //$parent.x6 potrzebne ponieważ tabela korzysta z izolowanego scope
 				              }]
 			};
 	$scope.openAdd = function (size) {
@@ -120,6 +121,10 @@ function($scope, $modal, projects) {
 	      controller: 'ProjectModalCtrl'
 	      })
 	};
+	$scope.generateReport = function (id){
+		projects.generateReport(id);
+	};	
+
 } ])
 .controller('MwdCtrl', [
 '$scope',
