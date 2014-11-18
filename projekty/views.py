@@ -11,6 +11,7 @@ import logging, os
 
 logger = logging.getLogger(__name__+'views')
 subscriber = None
+prep_consumer()
 # Create your views here.
 def index(request):
     template = loader.get_template('index.html')
@@ -87,8 +88,8 @@ def prep_consumer():
 def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
-        gen_report.delay(project_id)
         prep_consumer()
+        gen_report.delay(project_id)
         
 @api_view(['GET', 'POST'])
 def get_reports(request):
