@@ -1,6 +1,6 @@
 from celery import Celery
 import logging, time, datetime, os
-from projekty.queue import PublishQueue
+from queue.queue import PublishQueue
 
 app = Celery('tasks', backend='amqp', broker='amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com/iypkanhf')
 logger = logging.getLogger(__name__+'Task')

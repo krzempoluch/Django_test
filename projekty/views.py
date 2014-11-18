@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from projekty.models import Projekt, ProjektSerializer, MWD, MWDSerializer
 from messaging.tasks import gen_report
-from projekty.queue import ReportConsumerQueue
+from queue.queue import ReportConsumerQueue
 import logging, os
 
 logger = logging.getLogger(__name__+'views')
