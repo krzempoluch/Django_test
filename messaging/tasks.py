@@ -16,11 +16,11 @@ def gen_report(id):
     saveReport(str(raport))
     return raport
 
-def saveReport(self, report):
+def saveReport(report):
         now = datetime.datetime.now()
         reportFolder = '/var/lib/openshift/54646c675973ca5701000018/app-root/runtime/repo/reports/'
         fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+str(randrange(10))+'.txt'
         handle1=open(fileName,'w+')
         handle1.write(str(report))
         handle1.close()
-        self.logger.error("Zapisano plik raportu: "+fileName);
+        logger.error("Zapisano plik raportu: "+fileName);
