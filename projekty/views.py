@@ -10,7 +10,7 @@ from projekty.queue import ReportConsumerQueue
 import logging, os
 
 logger = logging.getLogger(__name__+'views')
-
+subscriber = None
 # Create your views here.
 def index(request):
     template = loader.get_template('index.html')
@@ -80,6 +80,7 @@ def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
         gen_report.delay(project_id)
+        prep_consumer()
         
 @api_view(['GET', 'POST'])
 def get_reports(request):
@@ -97,3 +98,9 @@ def get_report_file(request, file_name):
         response = HttpResponse(return_file, content_type='application/force-download')
         response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
         return response
+    
+def prep_consumer():
+    if subscriber == None:
+        logger.error('Inicjalizacja kolejki pobierajacej') 
+        subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
+        subscriber.consume()
