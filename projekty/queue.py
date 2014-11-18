@@ -13,8 +13,13 @@ class MessageQueue(object):
         
     def connect(self):
         url = urlparse(str(self.address))
-        params = pika.URLParameters(url)
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(params))
+        queueCredencial = pika.PlainCredentials(url.username, url.password)
+        self.connection = pika.BlockingConnection(
+                                                  host=url.hostname,
+                                                  port=url.port,
+                                                  virtual_host=url.path,
+                                                  credentials=queueCredencial
+                                                  )
         self.channel = self.connection.channel()
         self.channel.queue_declare(queue=self.name)
         
