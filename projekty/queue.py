@@ -51,15 +51,17 @@ class ConsumerQueue(MessageQueue):
                       no_ack=True)
         self.channel.start_consuming()
         
+    def closeConsumer(self):
+        self.logger.error("--------Zamkniecie kolejki--------");
+        self.channel.stop_consuming()
+        self.disconnect()
+        self.consumer_thread._stop()
+        
     def callback(self, ch, method, properties, body):
        raise NotImplementedError("Please Implement this method")
         
 class ReportConsumerQueue(ConsumerQueue):
     def callback(self, ch, method, properties, body):
-        self.logger.error("--------Zamkniecie kolejki--------");
-        self.channel.stop_consuming()
-        self.disconnect()
-        self.consumer_thread._stop()
         self.logger.error("Odebrano wiadomosc z kolejki: "+self.name+" wiadomosc: "+str(body))
         self.saveReport(body)
         
