@@ -4,14 +4,14 @@ from projekty.queue import PublishQueue
 
 app = Celery('tasks', backend='amqp', broker='amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com/iypkanhf')
 logger = logging.getLogger(__name__+'Task')
-global producer
+producer = None
 
 def prep_consumer():
-    if producer is None:
+    if producer is not None:
+        return
+    else:
         logger.error('##############Inicjalizacja kolejki wysylajacej##############') 
         producer = PublishQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
-    else:
-        return
 @app.task
 def gen_report(id):
     now = datetime.datetime.now()
