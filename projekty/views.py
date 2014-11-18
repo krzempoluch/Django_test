@@ -10,7 +10,7 @@ from projekty.queue import ReportConsumerQueue
 import logging, os
 
 logger = logging.getLogger(__name__+'views')
-subscriber = None
+global subscriber
 
 # Create your views here.
 def index(request):
