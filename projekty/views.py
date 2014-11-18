@@ -86,8 +86,8 @@ def prep_consumer():
 def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
-        prep_consumer()
         gen_report.delay(project_id)
+        prep_consumer()
         
 @api_view(['GET', 'POST'])
 def get_reports(request):
