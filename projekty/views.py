@@ -74,7 +74,15 @@ def mwd_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+   
+def prep_consumer():
+    if subscriber is None:
+        logger.error('##############Inicjalizacja kolejki pobierajacej#############') 
+        subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
+        subscriber.consume()
+    else:
+        return
+     
 @api_view(['GET', 'POST'])
 def generate_report(request, project_id):
     if request.method == 'POST':
@@ -98,11 +106,3 @@ def get_report_file(request, file_name):
         response = HttpResponse(return_file, content_type='application/force-download')
         response['Content-Disposition'] = 'attachment; filename="%s"' % file_name
         return response
-    
-def prep_consumer():
-    if subscriber == None:
-        logger.error('Inicjalizacja kolejki pobierajacej') 
-        subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
-        subscriber.consume()
-    else:
-        return
