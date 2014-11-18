@@ -4,7 +4,7 @@ from projekty.queue import PublishQueue
 
 app = Celery('tasks', backend='amqp', broker='amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com/iypkanhf')
 logger = logging.getLogger(__name__+'Task')
-producer = PublishQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/Fiypkanhf')
+producer = PublishQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
 
 @app.task
 def gen_report(id):
