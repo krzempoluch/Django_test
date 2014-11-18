@@ -10,7 +10,7 @@ from projekty.queue import ReportConsumerQueue
 import logging, os
 
 logger = logging.getLogger(__name__+'views')
-global subscriber
+subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf').consume()
 
 # Create your views here.
 def index(request):
@@ -75,19 +75,12 @@ def mwd_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-   
-def prep_consumer():
-    if subscriber is None:
-        logger.error('###############Inicjalizacja kolejki pobierajacej##############') 
-        subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
-        subscriber.consume()
-     
+    
 @api_view(['GET', 'POST'])
 def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
         gen_report.delay(project_id)
-        prep_consumer()
         
 @api_view(['GET', 'POST'])
 def get_reports(request):
