@@ -12,7 +12,7 @@ class MessageQueue(object):
         self.address=queueAddress
         
     def connect(self):
-        url = urlparse(self.address)
+        url = urlparse(str(self.address))
         params = pika.URLParameters(url)
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(params))
         self.channel = self.connection.channel()
