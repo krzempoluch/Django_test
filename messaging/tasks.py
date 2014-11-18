@@ -13,13 +13,13 @@ def gen_report(id):
     raport = now.strftime("%Y-%m-%d %H:%M")+' ID: '+id+' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris         isi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa         qui officia deserunt mollit anim id est laborum.'
     logger.error('-------------------generowanie raportu dla projektu: '+id+' zakonczone---------------')
 #     producer.publish(str(raport))
-    saveReport(str(raport))
+    saveReport(str(raport), id)
     return raport
 
-def saveReport(report):
+def saveReport(report, id):
         now = datetime.datetime.now()
         reportFolder = '/var/lib/openshift/54646c675973ca5701000018/app-root/runtime/repo/reports/'
-        fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+str(randrange(10))+'.txt'
+        fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+'_'+id+'.txt'
         handle1=open(fileName,'w+')
         handle1.write(str(report))
         handle1.close()
