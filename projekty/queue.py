@@ -17,7 +17,7 @@ class MessageQueue(object):
         params = pika.ConnectionParameters(
                                             host=url.hostname,
                                             port=url.port,
-                                            virtual_host=url.path,
+                                            virtual_host=url.path[1:],
                                             credentials=queueCredencial
                                            )
         self.connection = pika.BlockingConnection(params)
