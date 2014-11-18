@@ -65,8 +65,8 @@ DATABASES = {
         'NAME': 'djangotest123',
         'USER': 'adminafgpvsf',
         'PASSWORD': 'xQKnIueLC_Pc',
-        'HOST': os.environ['OPENSHIFT_POSTGRESQL_DB_HOST'],
-        'PORT': os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
+        'HOST': '54646d59e0b8cd8060000086-metoda1234.rhcloud.com',
+        'PORT': '35646',
     }
 }
 
