@@ -65,7 +65,7 @@ class ReportConsumerQueue(ConsumerQueue):
         
     def saveReport(self, report):
         now = datetime.datetime.now()
-        reportFolder = 'reports/'
+        reportFolder = '/var/lib/openshift/54646c675973ca5701000018/app-root/runtime/repo/reports/'
         fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+str(randrange(10))+'.txt'
         handle1=open(fileName,'w+')
         handle1.write(str(report))
