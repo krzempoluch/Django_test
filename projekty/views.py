@@ -78,7 +78,7 @@ def mwd_list(request):
    
 def prep_consumer():
     if subscriber is None:
-        logger.error('##############Inicjalizacja kolejki pobierajacej##############') 
+        logger.error('###############Inicjalizacja kolejki pobierajacej##############') 
         subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
         subscriber.consume()
     else:
