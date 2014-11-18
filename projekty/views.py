@@ -11,7 +11,7 @@ import logging, os
 
 logger = logging.getLogger(__name__+'views')
 subscriber = None
-prep_consumer()
+
 # Create your views here.
 def index(request):
     template = loader.get_template('index.html')
@@ -81,8 +81,6 @@ def prep_consumer():
         logger.error('###############Inicjalizacja kolejki pobierajacej##############') 
         subscriber = ReportConsumerQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
         subscriber.consume()
-    else:
-        return
      
 @api_view(['GET', 'POST'])
 def generate_report(request, project_id):
