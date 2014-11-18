@@ -13,7 +13,6 @@ def gen_report(id):
     logger.error('-------------------generowanie raportu dla projektu: '+id+' zakonczone---------------')
 #     producer.publish(str(raport))
     saveReport(str(raport), id)
-    return raport
 
 def saveReport(report, id):
         now = datetime.datetime.now()
