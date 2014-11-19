@@ -1,11 +1,16 @@
 from celery import Celery
 import logging, time, datetime, os, json
 # from messaging.queue import PublishQueue
-app = Celery('tasks', backend='amqp', broker=json.loads(os.environ['cloudamqp_56497'])['uri'])
+app = Celery('tasks')
+app.conf().update(
+                  CELERY_TASK_SERIALIZER='json',
+                  CELERY_RESULT_BACKEND='db+sqlite:///%s/results.db' % (BASE_DIR,),
+                  BROKER_URL=json.loads(os.environ['cloudamqp_56497'])['uri']
+                  )
 logger = logging.getLogger(__name__+'Task')
 # producer = PublishQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
 
-@app.task(ignore_result=True, backend='database')
+@app.task(ignore_result=True)
 def gen_report(id):
     now = datetime.datetime.now()
     time.sleep(5)
