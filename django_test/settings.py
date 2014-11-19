@@ -21,11 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '5@*n=4#mlq@655ebm=9^w$yy+3_^pz27hgl_wfybq!@#ybp0=m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['djangotest123-metoda1234.rhcloud.com']
+ALLOWED_HOSTS = ['djangotest123-metoda1234.rhcloud.com', 'localhost', '*']
 
 
 # Application definition
@@ -62,11 +62,10 @@ WSGI_APPLICATION = 'django_test.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'djangotest123',
-        'USER': 'adminafgpvsf',
-        'PASSWORD': 'xQKnIueLC_Pc',
-        'HOST': '54646d59e0b8cd8060000086-metoda1234.rhcloud.com',
-        'PORT': '35646',
+        'NAME': 'ress',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1',
     }
 }
 
@@ -99,6 +98,17 @@ REST_FRAMEWORK = {
 }
 MEDIA_ROOT = ''
 MEDIA_URL = ''
-STATIC_ROOT = ''
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+#Celery
+BROKER_URL = 'localhost'
+CELERY_RESULT_BACKEND = 'db+postgresql+psycopg2://postgres:1234@localhost:5432/ress'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_ENGINE_OPTIONS = {'echo': False}
+CELERY_RESULT_DB_TABLENAMES = {
+    'task': 'Django_taskmeta',
+    'group': 'Django_groupmeta',
+}

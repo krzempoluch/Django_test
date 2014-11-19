@@ -1,16 +1,15 @@
 from celery import Celery
+from django.conf import settings
 import logging, time, datetime, os, json
 # from messaging.queue import PublishQueue
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_test.settings')
 app = Celery('tasks')
-app.conf().update(
-                  CELERY_TASK_SERIALIZER='json',
-                  CELERY_RESULT_BACKEND='db+sqlite:///%s/results.db' % (BASE_DIR,),
-                  BROKER_URL=json.loads(os.environ['cloudamqp_56497'])['uri']
-                  )
+app.config_from_object('django.conf:settings')
+
 logger = logging.getLogger(__name__+'Task')
 # producer = PublishQueue('reportReturnQueue', 'amqp://iypkanhf:f7W5aI8SOzDje6BM-e-JSPcR4k7V7VFh@turtle.rmq.cloudamqp.com:5672/iypkanhf')
 
-@app.task(ignore_result=True)
+@app.task
 def gen_report(id):
     now = datetime.datetime.now()
     time.sleep(5)
@@ -21,7 +20,7 @@ def gen_report(id):
 
 def saveReport(report, id):
         now = datetime.datetime.now()
-        reportFolder = '/var/lib/openshift/54646c675973ca5701000018/app-root/runtime/repo/reports/'
+        reportFolder = 'reports/'
         fileName = reportFolder+'raport_'+now.strftime("%Y-%m-%d_%H%M")+'_'+id+'.txt'
         handle1=open(fileName,'w+')
         handle1.write(str(report))
