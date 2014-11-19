@@ -21,11 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '5@*n=4#mlq@655ebm=9^w$yy+3_^pz27hgl_wfybq!@#ybp0=m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['djangotest123-metoda1234.rhcloud.com', 'localhost', '*']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -85,7 +85,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__),'static').replace('\\','/'),
+#     os.path.join(os.path.dirname(__file__),'static').replace('\\','/'),
 )
 
 REST_FRAMEWORK = {

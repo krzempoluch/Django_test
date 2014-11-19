@@ -115,6 +115,17 @@ function($stateProvider, $urlRouterProvider, $interpolateProvider) {
 	}
 	return o;
 } ])
+.factory('sse', function($rootScope) {
+	var sse = new EventSource('/api/sse/');
+      return {
+        addEventListener: function(eventName, callback) {
+          sse.addEventListener(eventName, function() {
+            var args = arguments;
+            callback.apply(sse, args);
+          });
+        }
+      };
+})
 .controller('MainCtrl',[ 
 '$scope',
 '$modal',
@@ -149,7 +160,10 @@ function($scope, $modal, projects) {
 	$scope.generateReport = function (id){
 		projects.generateReport(id);
 	};	
-
+	var source = new EventSource('/sse/');
+    source.addEventListener("time", function(e) {
+    	console.log('dupa1');
+    });
 } ])
 .controller('MwdCtrl', [
 '$scope',

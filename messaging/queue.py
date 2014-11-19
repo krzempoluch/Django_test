@@ -13,7 +13,10 @@ class MessageQueue(object):
         
     def connect(self):
         url = urlparse(str(self.address))
-        queueCredencial = pika.PlainCredentials(url.username, url.password)
+        if url.username is not None:
+            queueCredencial = pika.PlainCredentials(url.username, url.password)
+        else:
+            queueCredencial = None
         params = pika.ConnectionParameters(
                                             host=url.hostname,
                                             port=url.port,

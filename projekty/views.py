@@ -5,7 +5,10 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from projekty.models import Projekt, ProjektSerializer, MWD, MWDSerializer
-from messaging.tasks import gen_report
+from messaging.generator import genReport
+from messaging.saver import saveReport
+from celery import chain
+
 # from messaging.queue import ReportConsumerQueue
 import logging, os
 
@@ -80,7 +83,8 @@ def mwd_list(request):
 def generate_report(request, project_id):
     if request.method == 'POST':
         logger.error('---------------------Generuje raport dla projektu o id: '+str(project_id)+' ---------------') 
-        gen_report.delay(project_id)
+        taskChain = chain(genReport.s(project_id), saveReport.s())
+        taskChain.apply_async()
         
 @api_view(['GET', 'POST'])
 def get_reports(request):

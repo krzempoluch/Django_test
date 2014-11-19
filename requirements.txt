@@ -16,3 +16,5 @@ dj-database-url==0.3.0
 dj-static==0.0.6
 argparse==1.2.1
 SQLAlchemy==0.9.8
+django-sse==0.4.1
+sse==1.2
